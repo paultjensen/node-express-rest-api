@@ -1,0 +1,21 @@
+{
+  "name": "node-express-rest-api",
+  "version": "0.0.1",
+  "private": false,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "latest",
+    "body-parser": "latest",
+    "http-errors": "~1.6.2",
+    "less-middleware": "~2.2.1",
+    "morgan": "~1.9.0",
+    "winston": "latest",
+    "pug": "2.0.0-beta11",
+    "yargs": "latest",
+    "compression": "latest"
+  }
+}

@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+
+var Svc = require('../app');
+Svc.svc.init().then(function() {
+    Svc.svc.run(Svc.app);
+}).catch(function(err) {
+    Svc.log(err);
+});
