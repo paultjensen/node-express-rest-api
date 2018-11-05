@@ -16,6 +16,8 @@
     "winston": "latest",
     "pug": "2.0.0-beta11",
     "yargs": "latest",
-    "compression": "latest"
+    "compression": "latest",
+    "hoek": "~4.2.1",
+    "cryptiles": "~4.1.2"
   }
 }

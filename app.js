@@ -45,7 +45,7 @@ svc.init = function() {
         app.use(function (req, res, next) {
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-            res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,x-nextbus-jwt');
+            res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,x-project-jwt');
             res.setHeader('Access-Control-Allow-Credentials', true);
             res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
             res.setHeader('Expires', '-1');
@@ -72,8 +72,8 @@ svc.init = function() {
         // Catch 404 and forward to error handler
         app.use(function (req, res, next) {
             let err = new Error('Not Found');
-            err.status = 404;
-            next(err);
+            res.status(404);
+            res.send('404: not found');
         });
 
         // Catch other errors
