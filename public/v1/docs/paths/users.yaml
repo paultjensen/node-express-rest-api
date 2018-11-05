@@ -1,0 +1,124 @@
+users:
+  get:
+    summary: All users
+    description: List of all users in the system
+    tags:
+      - Users
+    parameters:
+      - $ref: "#/parameters/keyParam"
+      - $ref: "#/parameters/pageNumParam"
+      - $ref: "#/parameters/pageSizeParam"
+      - $ref: "#/parameters/sortParam"
+      - $ref: "#/parameters/sortDirectionParam"
+      - $ref: "#/parameters/searchParam"
+#    responses:
+#      "200":
+#        description: An array of users
+#        schema:
+#          type: array
+#          items:
+#            $ref: '#/definitions/User'
+#      default:
+#        description: Unexpected error
+#        schema:
+#          $ref: '#/definitions/Error'
+  post:
+    summary: Creates a new user
+    description: Creates a new user
+    tags:
+      - Users
+    parameters:
+      - $ref: "#/parameters/keyParam"
+      - in: body
+        name: body
+        description: Object containing the fields to create for the user
+        required: true
+        schema:
+          $ref: '#/definitions/UserCreate'
+      - name: contact
+        in: query
+        description: Query parameter describing if this user is a contact. ie(contact="true")
+        required: false
+        type: string
+#    responses:
+#      "200":
+#        description: Success
+#      default:
+#        description: Unexpected error
+#        schema:
+#          $ref: '#/definitions/Error'
+
+users_userId:
+  get:
+    summary: User profile
+    description: Returns user profile information
+    tags:
+      - Users
+    parameters:
+      - $ref: "#/parameters/keyParam"
+      - name: userId
+        in: path
+        description: User's unique id
+        required: true
+        type: integer
+  put:
+    summary: Update user
+    description: Alters a user's profile
+    tags:
+      - Users
+    parameters:
+      - $ref: "#/parameters/keyParam"
+      - name: userId
+        in: path
+        description: User's unique id
+        required: true
+        type: integer
+      - in: body
+        name: body
+        description: Object containing the fields to change for the user
+        required: true
+        schema:
+          $ref: '#/definitions/UserUpdate'
+  delete:
+    summary: Deletes a user
+    description: Removes a user from being used in any endpoint
+    tags:
+      - Users
+    parameters:
+      - $ref: "#/parameters/keyParam"
+      - name: userId
+        in: path
+        description: User's unique id
+        required: true
+        type: integer
+
+
+users_userId_profile:
+  put:
+    summary: Update user profile
+    description: Alters a user's profile
+    tags:
+      - Users
+    parameters:
+      - $ref: "#/parameters/keyParam"
+      - name: userId
+        in: path
+        description: User's unique id
+        required: true
+        type: integer
+      - in: body
+        name: body
+        description: Object containing the fields to change for the user profile
+        required: true
+        schema:
+          $ref: '#/definitions/UserProfile'
+#    responses:
+#      "200":
+#        description: success
+#        schema:
+#          $ref: '#/definitions/Success'
+#      default:
+#        description: Unexpected error
+#        schema:
+#          $ref: '#/definitions/Error'
+

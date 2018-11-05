@@ -1,0 +1,967 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Project 1.0 API",
+    "description": "Provides access to project data.",
+    "version": "1.0"
+  },
+  "host": "localhost",
+  "basePath": "/v1",
+  "schemes": [
+    "http"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "summary": "Must be called to get an API key, which is then passed into methods requiring login",
+        "tags": [
+          "Login"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Object containing the username and password of the user. Put username under the key \"ident\".",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ident": {
+                  "type": "string",
+                  "example": "Project",
+                  "description": "username"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "password",
+                  "description": "the user's password"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "/permissions": {
+      "get": {
+        "summary": "Permission list",
+        "description": "List of permissions available in the system",
+        "tags": [
+          "Permissions"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/keyParam"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/permissions/{parentPermission}": {
+      "get": {
+        "summary": "Child permissions",
+        "description": "List of child permissions with the specified parent",
+        "tags": [
+          "Permissions"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/keyParam"
+          },
+          {
+            "name": "parentPermission",
+            "in": "path",
+            "description": "Permission id number.",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/roles": {
+      "get": {
+        "summary": "All roles",
+        "description": "List of all roles in the system",
+        "tags": [
+          "Roles"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/keyParam"
+          },
+          {
+            "$ref": "#/parameters/pageNumParam"
+          },
+          {
+            "$ref": "#/parameters/pageSizeParam"
+          },
+          {
+            "$ref": "#/parameters/sortParam"
+          },
+          {
+            "$ref": "#/parameters/sortDirectionParam"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "summary": "Create a new role",
+        "description": "Creates a new role",
+        "tags": [
+          "Roles"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/keyParam"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Object containing the fields to create for the role",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Role"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/roles/{roleId}": {
+      "put": {
+        "summary": "Alter a role",
+        "description": "Updates a role",
+        "tags": [
+          "Roles"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/keyParam"
+          },
+          {
+            "name": "roleId",
+            "in": "path",
+            "description": "Role id number",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Object containing the fields to change for the role",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Role"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      },
+      "delete": {
+        "summary": "Remove a role",
+        "description": "Removes a role",
+        "tags": [
+          "Roles"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/keyParam"
+          },
+          {
+            "name": "roleId",
+            "in": "path",
+            "description": "Role id number",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/roles/{roleId}/grants": {
+      "get": {
+        "summary": "Grantable roles",
+        "description": "List of roles that a user with this role can grant to other users",
+        "tags": [
+          "Roles"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/keyParam"
+          },
+          {
+            "name": "roleId",
+            "in": "path",
+            "description": "Role id number",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "summary": "Add grantability",
+        "description": "Add to list of roles that a user can grant",
+        "tags": [
+          "Roles"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/keyParam"
+          },
+          {
+            "name": "roleId",
+            "in": "path",
+            "description": "Role id number",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Agency and grantable role",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Role"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/roles/{roleId}/grants/{grantableId}": {
+      "delete": {
+        "summary": "Delete grantable",
+        "description": "Revoke ability to grant this role",
+        "tags": [
+          "Roles"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/keyParam"
+          },
+          {
+            "name": "roleId",
+            "in": "path",
+            "description": "Role id number. The role whose rights are being modified.",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "grantableId",
+            "in": "path",
+            "description": "Role id number. The role whose ability to be granted will be revoked.",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/roles/{roleId}/permissions": {
+      "get": {
+        "summary": "Role permissions list",
+        "description": "List of permissions provided by this role",
+        "tags": [
+          "Roles"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/keyParam"
+          },
+          {
+            "name": "roleId",
+            "in": "path",
+            "description": "Role id number",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "summary": "Add permission",
+        "description": "Add a permission to this role",
+        "tags": [
+          "Roles"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/keyParam"
+          },
+          {
+            "name": "roleId",
+            "in": "path",
+            "description": "Role id number",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The permission to add",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Permission"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/roles/{roleId}/permissions/{permissionId}": {
+      "delete": {
+        "summary": "Remove permission",
+        "description": "Remove a permission from a role",
+        "tags": [
+          "Roles"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/keyParam"
+          },
+          {
+            "name": "roleId",
+            "in": "path",
+            "description": "Role id number. The role whose rights are being modified.",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "permissionId",
+            "in": "path",
+            "description": "The permission to be removed",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/roles/users": {
+      "get": {
+        "summary": "All user's roles",
+        "description": "List of all users and their roles in each agency",
+        "tags": [
+          "Roles"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/keyParam"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "All users",
+        "description": "List of all users in the system",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/keyParam"
+          },
+          {
+            "$ref": "#/parameters/pageNumParam"
+          },
+          {
+            "$ref": "#/parameters/pageSizeParam"
+          },
+          {
+            "$ref": "#/parameters/sortParam"
+          },
+          {
+            "$ref": "#/parameters/sortDirectionParam"
+          },
+          {
+            "$ref": "#/parameters/searchParam"
+          }
+        ]
+      },
+      "post": {
+        "summary": "Creates a new user",
+        "description": "Creates a new user",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/keyParam"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Object containing the fields to create for the user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserCreate"
+            }
+          },
+          {
+            "name": "contact",
+            "in": "query",
+            "description": "Query parameter describing if this user is a contact. ie(contact=\"true\")",
+            "required": false,
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "summary": "User profile",
+        "description": "Returns user profile information",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/keyParam"
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User's unique id",
+            "required": true,
+            "type": "integer"
+          }
+        ]
+      },
+      "put": {
+        "summary": "Update user",
+        "description": "Alters a user's profile",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/keyParam"
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User's unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Object containing the fields to change for the user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserUpdate"
+            }
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Deletes a user",
+        "description": "Removes a user from being used in any endpoint",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/keyParam"
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User's unique id",
+            "required": true,
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "/users/{userId}/profile/": {
+      "put": {
+        "summary": "Update user profile",
+        "description": "Alters a user's profile",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/keyParam"
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User's unique id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Object containing the fields to change for the user profile",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserProfile"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "parameters": {
+    "keyParam": {
+      "in": "header",
+      "name": "x-project-jwt",
+      "description": "The API key provided by /login",
+      "required": true,
+      "type": "string"
+    },
+    "pageNumParam": {
+      "name": "pageNum",
+      "in": "query",
+      "description": "Page number of results to return. Numbers start with 1.",
+      "required": false,
+      "type": "integer"
+    },
+    "pageSizeParam": {
+      "name": "pageSize",
+      "in": "query",
+      "description": "The number of results to return per page.",
+      "required": false,
+      "type": "integer"
+    },
+    "sortParam": {
+      "in": "query",
+      "name": "sort",
+      "description": "The data field to sort",
+      "required": false,
+      "type": "string",
+      "maxLength": 255
+    },
+    "sortDirectionParam": {
+      "in": "query",
+      "name": "sortDir",
+      "description": "The direction to sort (ASC or DESC)",
+      "required": false,
+      "type": "string",
+      "maxLength": 255
+    },
+    "searchParam": {
+      "in": "query",
+      "name": "search",
+      "description": "A string to use to filter results",
+      "required": false,
+      "type": "string",
+      "maxLength": 255
+    },
+    "limitParam": {
+      "name": "limit",
+      "in": "query",
+      "description": "The max number of items to return.",
+      "required": false,
+      "type": "integer"
+    },
+    "requiredLimitParam": {
+      "name": "limit",
+      "in": "query",
+      "description": "The max number of items to return (required).",
+      "required": true,
+      "type": "integer"
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "required": [
+        "username",
+        "password"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "unique handle for the user",
+          "example": "jdoe1980"
+        },
+        "password_reset_key": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "hash which allows a password reset",
+          "example": "bbc53980e27540ba87b352a8c4ed0ed4"
+        },
+        "password_reset_key_expiration": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "date time of when the password_reset_key expires",
+          "example": "2017-01-17T22:21:11.958Z"
+        },
+        "sms_number": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "number at which the user can receive texts",
+          "example": "512-555-1212"
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "email address for the user",
+          "example": "user@example.com"
+        },
+        "last_login": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "timestamp for last time user logged in, or null if the user has never logged in",
+          "example": "2016-12-07T23:50:39.386Z"
+        }
+      }
+    },
+    "UserCombined": {
+      "type": "object",
+      "required": [
+        "username",
+        "password"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "unique handle for the user",
+          "example": "jdoe1980"
+        },
+        "password_reset_key": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "hash which allows a password reset",
+          "example": "bbc53980e27540ba87b352a8c4ed0ed4"
+        },
+        "password_reset_key_expiration": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "date time of when the password_reset_key expires",
+          "example": "2017-01-17T22:21:11.958Z"
+        },
+        "sms_number": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "number at which the user can receive texts",
+          "example": "512-555-1212"
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "email address for the user",
+          "example": "user@example.com"
+        },
+        "last_login": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "timestamp for last time user logged in, or null if the user has never logged in",
+          "example": "2016-12-07T23:50:39.386Z"
+        },
+        "user_profile": {
+          "$ref": "#/definitions/UserProfile"
+        }
+      }
+    },
+    "UserCreate": {
+      "type": "object",
+      "required": [
+        "username",
+        "password"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "unique handle for the user",
+          "example": "jdoe1980"
+        },
+        "password": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "hash of the user's password",
+          "example": "password"
+        },
+        "sms_number": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "number at which the user can receive texts",
+          "example": "512-555-1212"
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "email address for the user",
+          "example": "user@example.com"
+        },
+        "real_name": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "name for the user",
+          "example": "Joe User"
+        }
+      }
+    },
+    "UserUpdate": {
+      "type": "object",
+      "properties": {
+        "sms_number": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "number at which the user can receive texts",
+          "example": "512-555-1212"
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "email address for the user",
+          "example": "user@example.com"
+        },
+        "real_name": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "name for the user",
+          "example": "Joe User"
+        }
+      }
+    },
+    "UserProfile": {
+      "type": "object",
+      "required": [
+        "phone",
+        "address",
+        "address_2",
+        "city",
+        "state_province_region",
+        "postal_code",
+        "country",
+        "user_id",
+        "profile_id"
+      ],
+      "properties": {
+        "phone": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "A phone number for the user",
+          "example": "555-555-5555"
+        },
+        "address": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "An address for the user",
+          "example": "323 Some Street"
+        },
+        "address_2": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "Address for the user continued",
+          "example": "Unit 5"
+        },
+        "city": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "City location of the user's address",
+          "example": "Austin"
+        },
+        "state_province_region": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "Region in which the address is located",
+          "example": "Texas"
+        },
+        "postal_code": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "Postal code for the address",
+          "example": 78759
+        },
+        "country": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "Country of the address",
+          "example": "USA"
+        },
+        "user_id": {
+          "type": "integer",
+          "description": "The id of the user",
+          "example": 1
+        },
+        "profile_id": {
+          "type": "integer",
+          "description": "The id of the profile",
+          "example": 1
+        }
+      }
+    },
+    "UserAgencyPortalSettings": {
+      "type": "object",
+      "required": [
+        "settings"
+      ],
+      "properties": {
+        "settings": {
+          "type": "object",
+          "description": "user's agency portal settings",
+          "example": {}
+        }
+      }
+    },
+    "Role": {
+      "type": "object",
+      "required": [
+        "name",
+        "nb_id"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "Name of the role",
+          "example": "BASIC_USER"
+        },
+        "nb_id": {
+          "type": "integer",
+          "description": "Database id",
+          "example": 2
+        }
+      }
+    },
+    "RoleAdd": {
+      "type": "object",
+      "required": [
+        "authority",
+        "role"
+      ],
+      "properties": {
+        "authority": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "Authority ID",
+          "example": "projet-test"
+        },
+        "role": {
+          "type": "integer",
+          "description": "Database id",
+          "example": 2
+        }
+      }
+    },
+    "Permission": {
+      "type": "object",
+      "required": [
+        "name",
+        "id",
+        "description"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "Name of the permission",
+          "example": "VIEW DaTA"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "User-friendly description of the permission",
+          "example": "Allows the user to view information about data"
+        },
+        "id": {
+          "type": "integer",
+          "description": "Database id",
+          "example": 2
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "string",
+          "maxLength": 255
+        },
+        "error": {
+          "type": "string",
+          "maxLength": 255
+        }
+      }
+    },
+    "ExpandedError": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "string",
+          "maxLength": 255,
+          "example": "false"
+        },
+        "error": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "maxLength": 255,
+              "example": "fetch_objects_failed"
+            },
+            "message": {
+              "type": "string",
+              "maxLength": 255,
+              "example": "Failed to fetch objects: <err msg>"
+            }
+          }
+        }
+      }
+    },
+    "Success": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "string",
+          "maxLength": 255
+        }
+      }
+    },
+    "CreatedAt": {
+      "type": "string",
+      "maxLength": 255,
+      "description": "The date this object was created",
+      "example": "2016-11-28T13:59:29.135Z"
+    },
+    "UpdatedAt": {
+      "type": "string",
+      "maxLength": 255,
+      "description": "The date this object was last updated",
+      "example": "2016-11-28T13:59:29.135Z"
+    }
+  }
+}

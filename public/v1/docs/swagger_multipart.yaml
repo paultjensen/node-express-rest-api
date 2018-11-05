@@ -1,0 +1,25 @@
+swagger: '2.0'
+info:
+  title: Project 1.0 API
+  description: Provides access to project data.
+  version: "1.0"
+
+# the domain of the service
+host: localhost
+#host: localhost:8089
+basePath: /v1
+
+# array of all schemes that your API supports
+schemes:
+  - http
+produces:
+  - application/json
+
+paths:
+  $ref: ./paths/index.yaml
+
+parameters:
+  $ref: ./parameters/index.yaml
+
+definitions:
+  $ref: ./definitions/index.yaml

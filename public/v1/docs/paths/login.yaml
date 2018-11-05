@@ -1,0 +1,62 @@
+post:
+  summary: Must be called to get an API key, which is then passed into methods requiring login
+  tags:
+    - Login
+  parameters:
+    - name: body
+      in: body
+      description: Object containing the username and password of the user. Put username under the key "ident".
+      required: true
+      schema:
+        type: object
+        properties:
+          ident:
+            type: string
+            example: Project
+            description: username
+          password:
+            type: string
+            example: password
+            description: the user's password
+#  responses:
+#    "200":
+#      description: The key and permissions granted
+#      schema:
+#        type: object
+#        properties:
+#          token:
+#            type: string
+#            description: Encrypted and signed user information and permissions
+#          user:
+#            type: object
+#            description: Plaintext version of token
+#            properties:
+#              authorities:
+#                type: object
+#                description: Associative array of authorities and permissions for the user
+#              global:
+#                type: object
+#                properties:
+#                  roles:
+#                    type: array
+#                    description: Array of user's global roles
+#                    items:
+#                        type: string
+#                        example: NEXTBUS_MASTER
+#                  permissions:
+#                    type: array
+#                    description: Array of user's global permissions
+#                    items:
+#                        type: string
+#                        example: _view_public_info
+#                  canGrant:
+#                    type: array
+#                    description: Array of roles user and grant globally
+#                    items:
+#                        type: string
+#                        example: PROJECT_MASTER
+#
+#    default:
+#      description: Unexpected error
+#      schema:
+#        $ref: '#/definitions/Error'

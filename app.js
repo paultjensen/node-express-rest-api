@@ -38,7 +38,7 @@ svc.init = function() {
         app.use(BodyParser.urlencoded({limit: '800kb', extended: true}));
         app.use(CookieParser());
 
-        app.use(lessMiddleware(Path.join(__dirname, 'public')));
+        // Handle Static File Requests -- needed for Swagger Docs
         app.use(Express.static(Path.join(__dirname, 'public')));
 
         // Set up response headers
@@ -70,8 +70,7 @@ svc.init = function() {
             Router);
 
         // Catch 404 and forward to error handler
-        app.use(function (req, res, next) {
-            let err = new Error('Not Found');
+        app.use(function (req, res) {
             res.status(404);
             res.send('404: not found');
         });
@@ -118,8 +117,8 @@ function onError(error) {
 }
 
 function onListening() {
-    let addr = svc.server.address();
-    let bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+    let address = svc.server.address();
+    let bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + address.port;
     Logger.log.info('Listening on ' + bind);
 }
 

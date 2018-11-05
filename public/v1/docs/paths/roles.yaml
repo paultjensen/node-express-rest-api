@@ -1,0 +1,310 @@
+roles:
+  get:
+    summary: All roles
+    description: List of all roles in the system
+    tags:
+      - Roles
+    parameters:
+      - $ref: "#/parameters/keyParam"
+      - $ref: "#/parameters/pageNumParam"
+      - $ref: "#/parameters/pageSizeParam"
+      - $ref: "#/parameters/sortParam"
+      - $ref: "#/parameters/sortDirectionParam"
+    produces:
+      - application/json
+#    responses:
+#      "200":
+#        description: An array of roles
+#        schema:
+#          type: array
+#          items:
+#            $ref: '#/definitions/Role'
+#      default:
+#        description: Unexpected error
+#        schema:
+#          $ref: '#/definitions/Error'
+  post:
+    summary: Create a new role
+    description: Creates a new role
+    tags:
+      - Roles
+    parameters:
+      - $ref: "#/parameters/keyParam"
+      - in: body
+        name: body
+        description: Object containing the fields to create for the role
+        required: true
+        schema:
+          $ref: '#/definitions/Role'
+    produces:
+      - application/json
+#    responses:
+#      "200":
+#        description: Success
+#      default:
+#        description: Unexpected error
+#        schema:
+#          $ref: '#/definitions/Error'
+
+roles_roleId:
+  put:
+    summary: Alter a role
+    description: Updates a role
+    tags:
+      - Roles
+    parameters:
+      - $ref: "#/parameters/keyParam"
+      - name: roleId
+        in: path
+        description: Role id number
+        required: true
+        type: integer
+      - in: body
+        name: body
+        description: Object containing the fields to change for the role
+        required: true
+        schema:
+          $ref: '#/definitions/Role'
+    produces:
+      - application/json
+#    responses:
+#      "200":
+#        description: Success
+#      default:
+#        description: Unexpected error
+#        schema:
+#          $ref: '#/definitions/Error'
+  delete:
+    summary: Remove a role
+    description: Removes a role
+    tags:
+      - Roles
+    parameters:
+      - $ref: "#/parameters/keyParam"
+      - name: roleId
+        in: path
+        description: Role id number
+        required: true
+        type: integer
+    produces:
+      - application/json
+#    responses:
+#      "200":
+#        description: Success
+#      default:
+#        description: Unexpected error
+#        schema:
+#          $ref: '#/definitions/Error'
+
+roles_roleId_grants:
+  get:
+    summary: Grantable roles
+    description: List of roles that a user with this role can grant to other users
+    tags:
+      - Roles
+    parameters:
+      - $ref: "#/parameters/keyParam"
+      - name: roleId
+        in: path
+        description: Role id number
+        required: true
+        type: integer
+    produces:
+      - application/json
+#    responses:
+#      "200":
+#        description: An array of roles
+#        schema:
+#          type: array
+#          items:
+#            $ref: '#/definitions/Role'
+#      default:
+#        description: Unexpected error
+#        schema:
+#          $ref: '#/definitions/Error'
+  post:
+    summary: Add grantability
+    description: Add to list of roles that a user can grant
+    tags:
+      - Roles
+    parameters:
+      - $ref: "#/parameters/keyParam"
+      - name: roleId
+        in: path
+        description: Role id number
+        required: true
+        type: integer
+      - in: body
+        name: body
+        description: Agency and grantable role
+        required: true
+        schema:
+          $ref: '#/definitions/Role'
+    produces:
+      - application/json
+#    responses:
+#      "200":
+#        description: Success
+#      default:
+#        description: Unexpected error
+#        schema:
+#          $ref: '#/definitions/Error'
+
+roles_roleId_grants_grantableId:
+  delete:
+    summary: Delete grantable
+    description: Revoke ability to grant this role
+    tags:
+      - Roles
+    parameters:
+      - $ref: "#/parameters/keyParam"
+      - name: roleId
+        in: path
+        description: Role id number. The role whose rights are being modified.
+        required: true
+        type: integer
+      - name: grantableId
+        in: path
+        description: Role id number. The role whose ability to be granted will be revoked.
+        required: true
+        type: integer
+    produces:
+      - application/json
+#    responses:
+#      "200":
+#        description: Success
+#      default:
+#        description: Unexpected error
+#        schema:
+#          $ref: '#/definitions/Error'
+
+roles_roleId_permissions:
+  get:
+    summary: Role permissions list
+    description: List of permissions provided by this role
+    tags:
+      - Roles
+    parameters:
+      - $ref: "#/parameters/keyParam"
+      - name: roleId
+        in: path
+        description: Role id number
+        required: true
+        type: integer
+    produces:
+      - application/json
+#    responses:
+#      "200":
+#        description: List of permission strings
+#        schema:
+#          type: array
+#          items:
+#            $ref: '#/definitions/Permission'
+#      default:
+#        description: Unexpected error
+#        schema:
+#          $ref: '#/definitions/Error'
+  post:
+    summary: Add permission
+    description: Add a permission to this role
+    tags:
+      - Roles
+    parameters:
+      - $ref: "#/parameters/keyParam"
+      - name: roleId
+        in: path
+        description: Role id number
+        required: true
+        type: integer
+      - in: body
+        name: body
+        description: The permission to add
+        required: true
+        schema:
+          $ref: '#/definitions/Permission'
+    produces:
+      - application/json
+#    responses:
+#      "200":
+#        description: Success
+#      default:
+#        description: Unexpected error
+#        schema:
+#          $ref: '#/definitions/Error'
+
+roles_roleId_permissions_permissionId:
+  delete:
+    summary: Remove permission
+    description: Remove a permission from a role
+    tags:
+      - Roles
+    parameters:
+      - $ref: "#/parameters/keyParam"
+      - name: roleId
+        in: path
+        description: Role id number. The role whose rights are being modified.
+        required: true
+        type: integer
+      - name: permissionId
+        in: path
+        description: The permission to be removed
+        required: true
+        type: integer
+    produces:
+      - application/json
+#    responses:
+#      "200":
+#        description: Success
+#      default:
+#        description: Unexpected error
+#        schema:
+#          $ref: '#/definitions/Error'
+
+roles_users:
+  get:
+    summary: All user's roles
+    description: List of all users and their roles in each agency
+    tags:
+      - Roles
+    parameters:
+      - $ref: "#/parameters/keyParam"
+    produces:
+      - application/json
+#    responses:
+#      "200":
+#        description: List of permission strings
+#        schema:
+#          type: array
+#          items:
+#            type: object
+#      default:
+#        description: Unexpected error
+#        schema:
+#          $ref: '#/definitions/Error'
+
+#    post:
+#      summary: Create a new route
+#      tags:
+#        - Routes
+#      parameters:
+#        - $ref: "#/parameters/keyParam"
+#        - $ref: "#/parameters/authorityIdParam"
+#        - in: body
+#          name: body
+#          description: Object containing the fields to update for the route
+#          required: false
+#          schema:
+#            $ref: "#/definitions/RouteUpdate"
+#      consumes:
+#        - application/json
+#      produces:
+#        - application/json
+#      responses:
+#        "200":
+#          description: The new route created
+#          schema:
+#            $ref: '#/definitions/Route'
+#        default:
+#          description: Unexpected error
+#          schema:
+#            $ref: '#/definitions/Error'

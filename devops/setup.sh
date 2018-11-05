@@ -75,3 +75,5 @@ sudo -u postgres psql postgres
 echo "END psql --------"
 echo
 
+# Install Utility for Creating Multi-Part Swagger Docs
+sudo npm install -g multi-file-swagger

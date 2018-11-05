@@ -1,0 +1,40 @@
+/login:
+  $ref: ../paths/login.yaml
+
+/permissions:
+   $ref: ../paths/permissions.yaml#/permissions
+
+/permissions/{parentPermission}:
+   $ref: ../paths/permissions.yaml#/permissions_parentPermissions
+
+/roles:
+   $ref: ../paths/roles.yaml#/roles
+
+/roles/{roleId}:
+   $ref: ../paths/roles.yaml#/roles_roleId
+
+/roles/{roleId}/grants:
+   $ref: ../paths/roles.yaml#/roles_roleId_grants
+
+/roles/{roleId}/grants/{grantableId}:
+   $ref: ../paths/roles.yaml#/roles_roleId_grants_grantableId
+
+/roles/{roleId}/permissions:
+   $ref: ../paths/roles.yaml#/roles_roleId_permissions
+
+/roles/{roleId}/permissions/{permissionId}:
+   $ref: ../paths/roles.yaml#/roles_roleId_permissions_permissionId
+
+/roles/users:
+   $ref: ../paths/roles.yaml#/roles_users
+
+/users:
+  $ref: ../paths/users.yaml#/users
+
+/users/{userId}:
+  $ref: ../paths/users.yaml#/users_userId
+
+/users/{userId}/profile/:
+  $ref: ../paths/users.yaml#/users_userId_profile
+
+
