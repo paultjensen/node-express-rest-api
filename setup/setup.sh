@@ -75,5 +75,8 @@ sudo -u postgres psql postgres
 echo "END psql --------"
 echo
 
+# Create Example Database
+sudo -u postgres psql  -f "./setup-db.sql"
+
 # Install Utility for Creating Multi-Part Swagger Docs
 sudo npm install -g multi-file-swagger

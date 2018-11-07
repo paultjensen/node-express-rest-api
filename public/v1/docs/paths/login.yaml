@@ -5,14 +5,14 @@ post:
   parameters:
     - name: body
       in: body
-      description: Object containing the username and password of the user. Put username under the key "ident".
+      description: Object containing the username and password of the user. Put username under the key "username".
       required: true
       schema:
         type: object
         properties:
-          ident:
+          username:
             type: string
-            example: Project
+            example: fooname
             description: username
           password:
             type: string

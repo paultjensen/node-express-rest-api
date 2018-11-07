@@ -5,7 +5,7 @@
     "description": "Provides access to project data.",
     "version": "1.0"
   },
-  "host": "localhost",
+  "host": "localhost:3000",
   "basePath": "/v1",
   "schemes": [
     "http"
@@ -24,14 +24,14 @@
           {
             "name": "body",
             "in": "body",
-            "description": "Object containing the username and password of the user. Put username under the key \"ident\".",
+            "description": "Object containing the username and password of the user. Put username under the key \"username\".",
             "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "ident": {
+                "username": {
                   "type": "string",
-                  "example": "Project",
+                  "example": "fooname",
                   "description": "username"
                 },
                 "password": {
@@ -42,344 +42,6 @@
               }
             }
           }
-        ]
-      }
-    },
-    "/permissions": {
-      "get": {
-        "summary": "Permission list",
-        "description": "List of permissions available in the system",
-        "tags": [
-          "Permissions"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/keyParam"
-          }
-        ],
-        "produces": [
-          "application/json"
-        ]
-      }
-    },
-    "/permissions/{parentPermission}": {
-      "get": {
-        "summary": "Child permissions",
-        "description": "List of child permissions with the specified parent",
-        "tags": [
-          "Permissions"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/keyParam"
-          },
-          {
-            "name": "parentPermission",
-            "in": "path",
-            "description": "Permission id number.",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "produces": [
-          "application/json"
-        ]
-      }
-    },
-    "/roles": {
-      "get": {
-        "summary": "All roles",
-        "description": "List of all roles in the system",
-        "tags": [
-          "Roles"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/keyParam"
-          },
-          {
-            "$ref": "#/parameters/pageNumParam"
-          },
-          {
-            "$ref": "#/parameters/pageSizeParam"
-          },
-          {
-            "$ref": "#/parameters/sortParam"
-          },
-          {
-            "$ref": "#/parameters/sortDirectionParam"
-          }
-        ],
-        "produces": [
-          "application/json"
-        ]
-      },
-      "post": {
-        "summary": "Create a new role",
-        "description": "Creates a new role",
-        "tags": [
-          "Roles"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/keyParam"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Object containing the fields to create for the role",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Role"
-            }
-          }
-        ],
-        "produces": [
-          "application/json"
-        ]
-      }
-    },
-    "/roles/{roleId}": {
-      "put": {
-        "summary": "Alter a role",
-        "description": "Updates a role",
-        "tags": [
-          "Roles"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/keyParam"
-          },
-          {
-            "name": "roleId",
-            "in": "path",
-            "description": "Role id number",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Object containing the fields to change for the role",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Role"
-            }
-          }
-        ],
-        "produces": [
-          "application/json"
-        ]
-      },
-      "delete": {
-        "summary": "Remove a role",
-        "description": "Removes a role",
-        "tags": [
-          "Roles"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/keyParam"
-          },
-          {
-            "name": "roleId",
-            "in": "path",
-            "description": "Role id number",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "produces": [
-          "application/json"
-        ]
-      }
-    },
-    "/roles/{roleId}/grants": {
-      "get": {
-        "summary": "Grantable roles",
-        "description": "List of roles that a user with this role can grant to other users",
-        "tags": [
-          "Roles"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/keyParam"
-          },
-          {
-            "name": "roleId",
-            "in": "path",
-            "description": "Role id number",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "produces": [
-          "application/json"
-        ]
-      },
-      "post": {
-        "summary": "Add grantability",
-        "description": "Add to list of roles that a user can grant",
-        "tags": [
-          "Roles"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/keyParam"
-          },
-          {
-            "name": "roleId",
-            "in": "path",
-            "description": "Role id number",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Agency and grantable role",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Role"
-            }
-          }
-        ],
-        "produces": [
-          "application/json"
-        ]
-      }
-    },
-    "/roles/{roleId}/grants/{grantableId}": {
-      "delete": {
-        "summary": "Delete grantable",
-        "description": "Revoke ability to grant this role",
-        "tags": [
-          "Roles"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/keyParam"
-          },
-          {
-            "name": "roleId",
-            "in": "path",
-            "description": "Role id number. The role whose rights are being modified.",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "grantableId",
-            "in": "path",
-            "description": "Role id number. The role whose ability to be granted will be revoked.",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "produces": [
-          "application/json"
-        ]
-      }
-    },
-    "/roles/{roleId}/permissions": {
-      "get": {
-        "summary": "Role permissions list",
-        "description": "List of permissions provided by this role",
-        "tags": [
-          "Roles"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/keyParam"
-          },
-          {
-            "name": "roleId",
-            "in": "path",
-            "description": "Role id number",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "produces": [
-          "application/json"
-        ]
-      },
-      "post": {
-        "summary": "Add permission",
-        "description": "Add a permission to this role",
-        "tags": [
-          "Roles"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/keyParam"
-          },
-          {
-            "name": "roleId",
-            "in": "path",
-            "description": "Role id number",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "description": "The permission to add",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Permission"
-            }
-          }
-        ],
-        "produces": [
-          "application/json"
-        ]
-      }
-    },
-    "/roles/{roleId}/permissions/{permissionId}": {
-      "delete": {
-        "summary": "Remove permission",
-        "description": "Remove a permission from a role",
-        "tags": [
-          "Roles"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/keyParam"
-          },
-          {
-            "name": "roleId",
-            "in": "path",
-            "description": "Role id number. The role whose rights are being modified.",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "permissionId",
-            "in": "path",
-            "description": "The permission to be removed",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "produces": [
-          "application/json"
-        ]
-      }
-    },
-    "/roles/users": {
-      "get": {
-        "summary": "All user's roles",
-        "description": "List of all users and their roles in each agency",
-        "tags": [
-          "Roles"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/keyParam"
-          }
-        ],
-        "produces": [
-          "application/json"
         ]
       }
     },
@@ -442,8 +104,8 @@
     },
     "/users/{userId}": {
       "get": {
-        "summary": "User profile",
-        "description": "Returns user profile information",
+        "summary": "Get a User",
+        "description": "Returns user",
         "tags": [
           "Users"
         ],
@@ -462,7 +124,7 @@
       },
       "put": {
         "summary": "Update user",
-        "description": "Alters a user's profile",
+        "description": "Alters a user's information",
         "tags": [
           "Users"
         ],
@@ -508,34 +170,26 @@
         ]
       }
     },
-    "/users/{userId}/profile/": {
-      "put": {
-        "summary": "Update user profile",
-        "description": "Alters a user's profile",
+    "/ping": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Responds to ping with a pong",
         "tags": [
-          "Users"
+          "Ping"
         ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/keyParam"
-          },
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "User's unique id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Object containing the fields to change for the user profile",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UserProfile"
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "pong"
+                }
+              }
             }
           }
-        ]
+        }
       }
     }
   },
@@ -646,54 +300,6 @@
         }
       }
     },
-    "UserCombined": {
-      "type": "object",
-      "required": [
-        "username",
-        "password"
-      ],
-      "properties": {
-        "username": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "unique handle for the user",
-          "example": "jdoe1980"
-        },
-        "password_reset_key": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "hash which allows a password reset",
-          "example": "bbc53980e27540ba87b352a8c4ed0ed4"
-        },
-        "password_reset_key_expiration": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "date time of when the password_reset_key expires",
-          "example": "2017-01-17T22:21:11.958Z"
-        },
-        "sms_number": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "number at which the user can receive texts",
-          "example": "512-555-1212"
-        },
-        "email": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "email address for the user",
-          "example": "user@example.com"
-        },
-        "last_login": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "timestamp for last time user logged in, or null if the user has never logged in",
-          "example": "2016-12-07T23:50:39.386Z"
-        },
-        "user_profile": {
-          "$ref": "#/definitions/UserProfile"
-        }
-      }
-    },
     "UserCreate": {
       "type": "object",
       "required": [
@@ -753,154 +359,6 @@
           "maxLength": 255,
           "description": "name for the user",
           "example": "Joe User"
-        }
-      }
-    },
-    "UserProfile": {
-      "type": "object",
-      "required": [
-        "phone",
-        "address",
-        "address_2",
-        "city",
-        "state_province_region",
-        "postal_code",
-        "country",
-        "user_id",
-        "profile_id"
-      ],
-      "properties": {
-        "phone": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "A phone number for the user",
-          "example": "555-555-5555"
-        },
-        "address": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "An address for the user",
-          "example": "323 Some Street"
-        },
-        "address_2": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "Address for the user continued",
-          "example": "Unit 5"
-        },
-        "city": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "City location of the user's address",
-          "example": "Austin"
-        },
-        "state_province_region": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "Region in which the address is located",
-          "example": "Texas"
-        },
-        "postal_code": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "Postal code for the address",
-          "example": 78759
-        },
-        "country": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "Country of the address",
-          "example": "USA"
-        },
-        "user_id": {
-          "type": "integer",
-          "description": "The id of the user",
-          "example": 1
-        },
-        "profile_id": {
-          "type": "integer",
-          "description": "The id of the profile",
-          "example": 1
-        }
-      }
-    },
-    "UserAgencyPortalSettings": {
-      "type": "object",
-      "required": [
-        "settings"
-      ],
-      "properties": {
-        "settings": {
-          "type": "object",
-          "description": "user's agency portal settings",
-          "example": {}
-        }
-      }
-    },
-    "Role": {
-      "type": "object",
-      "required": [
-        "name",
-        "nb_id"
-      ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "Name of the role",
-          "example": "BASIC_USER"
-        },
-        "nb_id": {
-          "type": "integer",
-          "description": "Database id",
-          "example": 2
-        }
-      }
-    },
-    "RoleAdd": {
-      "type": "object",
-      "required": [
-        "authority",
-        "role"
-      ],
-      "properties": {
-        "authority": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "Authority ID",
-          "example": "projet-test"
-        },
-        "role": {
-          "type": "integer",
-          "description": "Database id",
-          "example": 2
-        }
-      }
-    },
-    "Permission": {
-      "type": "object",
-      "required": [
-        "name",
-        "id",
-        "description"
-      ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "Name of the permission",
-          "example": "VIEW DaTA"
-        },
-        "description": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "User-friendly description of the permission",
-          "example": "Allows the user to view information about data"
-        },
-        "id": {
-          "type": "integer",
-          "description": "Database id",
-          "example": 2
         }
       }
     },

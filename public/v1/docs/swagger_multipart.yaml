@@ -5,8 +5,7 @@ info:
   version: "1.0"
 
 # the domain of the service
-host: localhost
-#host: localhost:8089
+host: localhost:3000
 basePath: /v1
 
 # array of all schemes that your API supports
