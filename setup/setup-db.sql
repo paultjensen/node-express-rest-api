@@ -11,11 +11,10 @@ create table users(
    username varchar(255) NOT NULL,
    password varchar(255) NOT NULL,
    email varchar(255),
-   created timestamp with time zone not null default now()
+   last_login timestamp with time zone,
+   created_at timestamp with time zone not null default now(),
+   updated_at timestamp with time zone not null default now()
 );
 alter table users owner to admin_user;
-insert into users (username, password, email) values ('testa', 'password', 'testa@gmail.com');
-insert into users (username, password, email) values ('testb', 'password', 'testb@gmail.com');
-insert into users (username, password, email) values ('testc', 'password', 'testc@gmail.com');
-insert into users (username, password, email) values ('testd', 'password', 'testd@gmail.com');
-insert into users (username, password, email) values ('teste', 'password', 'teste@gmail.com');
+insert into users (username, password, email) values ('testa', '$2b$09$uEn1cunbavXmHEmf6Pg/8eUj4yS67eyWco7ev.Dqv2KjiwAlGU3M.', 'testa@gmail.com');
+insert into users (username, password, email) values ('testb', '$2b$09$uEn1cunbavXmHEmf6Pg/8eUj4yS67eyWco7ev.Dqv2KjiwAlGU3M.', 'testb@gmail.com');

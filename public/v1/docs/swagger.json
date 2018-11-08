@@ -91,13 +91,6 @@
             "schema": {
               "$ref": "#/definitions/UserCreate"
             }
-          },
-          {
-            "name": "contact",
-            "in": "query",
-            "description": "Query parameter describing if this user is a contact. ie(contact=\"true\")",
-            "required": false,
-            "type": "string"
           }
         ]
       }
@@ -319,46 +312,22 @@
           "description": "hash of the user's password",
           "example": "password"
         },
-        "sms_number": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "number at which the user can receive texts",
-          "example": "512-555-1212"
-        },
         "email": {
           "type": "string",
           "maxLength": 255,
           "description": "email address for the user",
           "example": "user@example.com"
-        },
-        "real_name": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "name for the user",
-          "example": "Joe User"
         }
       }
     },
     "UserUpdate": {
       "type": "object",
       "properties": {
-        "sms_number": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "number at which the user can receive texts",
-          "example": "512-555-1212"
-        },
         "email": {
           "type": "string",
           "maxLength": 255,
           "description": "email address for the user",
           "example": "user@example.com"
-        },
-        "real_name": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "name for the user",
-          "example": "Joe User"
         }
       }
     },

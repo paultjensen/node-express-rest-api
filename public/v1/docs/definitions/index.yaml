@@ -9,21 +9,6 @@ User:
       maxLength: 255
       description: unique handle for the user
       example: jdoe1980
-    password_reset_key:
-      type: string
-      maxLength: 255
-      description: hash which allows a password reset
-      example: bbc53980e27540ba87b352a8c4ed0ed4
-    password_reset_key_expiration:
-      type: string
-      maxLength: 255
-      description: date time of when the password_reset_key expires
-      example: 2017-01-17T22:21:11.958Z
-    sms_number:
-      type: string
-      maxLength: 255
-      description: number at which the user can receive texts
-      example: 512-555-1212
     email:
       type: string
       maxLength: 255
@@ -51,21 +36,11 @@ UserCreate:
       maxLength: 255
       description: hash of the user's password
       example: password
-    sms_number:
-      type: string
-      maxLength: 255
-      description: number at which the user can receive texts
-      example: 512-555-1212
     email:
       type: string
       maxLength: 255
       description: email address for the user
       example: user@example.com
-    real_name:
-      type: string
-      maxLength: 255
-      description: name for the user
-      example: Joe User
 
 UserUpdate:
   type: object
@@ -80,21 +55,11 @@ UserUpdate:
 #        maxLength: 255
 #        description: hash of the user's password
 #        example: $2a$04$Mlo8E.Kdd3cICmxpq7fPeu1xlsVL1inTpqOotmasvyhHH5DprJCmO
-    sms_number:
-      type: string
-      maxLength: 255
-      description: number at which the user can receive texts
-      example: 512-555-1212
     email:
       type: string
       maxLength: 255
       description: email address for the user
       example: user@example.com
-    real_name:
-      type: string
-      maxLength: 255
-      description: name for the user
-      example: Joe User
 
 Error:
   type: object

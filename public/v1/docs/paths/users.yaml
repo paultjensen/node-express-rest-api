@@ -35,11 +35,6 @@ users:
         required: true
         schema:
           $ref: '#/definitions/UserCreate'
-      - name: contact
-        in: query
-        description: Query parameter describing if this user is a contact. ie(contact="true")
-        required: false
-        type: string
 #    responses:
 #      "200":
 #        description: Success

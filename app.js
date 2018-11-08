@@ -12,36 +12,20 @@ let Logger = require('./lib/logger');
 let Security = require('./lib/security').security;
 let DbConn = require('./lib/database-connections').db;
 let DbLib = require('./lib/database').db;
+let _config = require('./lib/config').config;
 
 let Router = require('./routes/router');
 let LoginAndRegistrationHandler = require('./routes/login');
 let OptionsRequestHandler = require('./routes/options');
 
 let app = Express();
-let _config = {
-    apiVersion: 'v1',
-    jwtSecretKey: '8a9sdf67d6s9su',
-    "database": {
-        "shards": {
-            "core": {
-                "server": "localhost",
-                "port": "5432",
-                "username": "admin_user",
-                "password": "password",
-                "dialect": "postgres",
-                "database": "node_express_rest_api",
-                "description": "Contains users, configuration, settings, etc."
-            }
-        }
-    }
-};
 let svc = {};
 
 svc.init = function() {
     return new Promise(function(resolve) {
         DbConn.init(_config)
             .then(function () {
-                return DbLib.init(DbConn.getAllConnections());
+                return DbLib.init(DbConn.getAllConnections(), _config);
             }).then(function () {// Set up and initialize security
             Security.init(app, Passport, DbConn, DbLib, _config);
 
