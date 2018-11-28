@@ -22,7 +22,7 @@ Router.post('/', function (req, res) {
 Router.get('/', function(req, res) {
     let dbInst = DbConn.getConnection();
 
-    DbLib.getUsers(dbInst, req.params).then(function (result) {
+    DbLib.getUsers(dbInst, req.query).then(function (result) {
         res.status(200).json(FormatterLib.format(FormatterLib.usersFormatter, result));
     }).catch(function (err) {
         Logger.log.error('error:', err);

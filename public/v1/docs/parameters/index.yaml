@@ -7,7 +7,7 @@ keyParam:
 pageNumParam:
   name: pageNum
   in: query
-  description: Page number of results to return. Numbers start with 1.
+  description: Page number of results to return. Numbers start with 0.
   required: false
   type: integer
 pageSizeParam:
