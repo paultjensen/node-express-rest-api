@@ -27,6 +27,7 @@ Router.get('/', function(req, res) {
     params.pageOffset = Util.helper.getOffsetParam(req.query);
     params.orderDirection = Util.helper.getOrderDirection(req.query);
     params.orderParam = Util.helper.getOrderParam(req.query,['username', 'email']);
+    params.search = Util.helper.getSearchParam(req.query);
 
     if (isNaN(params.pageSize) || isNaN(params.pageOffset) ||
         params.orderDirection === null || params.orderParam === null) {
