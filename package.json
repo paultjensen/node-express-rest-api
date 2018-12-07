@@ -28,6 +28,7 @@
     "winston": "latest",
     "yargs": "latest",
     "async": "latest",
-    "bcrypt": "latest"
+    "bcrypt": "latest",
+    "redis": "latest"
   }
 }

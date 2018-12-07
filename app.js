@@ -10,6 +10,7 @@ let BodyParser = require('body-parser');
 
 let Logger = require('./lib/logger');
 let Security = require('./lib/security').security;
+let Cache = require('./lib/cache').cache;
 let DbConn = require('./lib/database-connections').db;
 let DbLib = require('./lib/database').db;
 let _config = require('./lib/config').config;
@@ -22,13 +23,25 @@ let app = Express();
 let svc = {};
 
 svc.init = function() {
-    return new Promise(function(resolve) {
-        DbConn.init(_config)
-            .then(function () {
-                return DbLib.init(DbConn.getAllConnections(), _config);
-            }).then(function () {// Set up and initialize security
-            Security.init(app, Passport, DbConn, DbLib, _config);
 
+    app.set('config', {
+        msg: {
+            'ERROR': 'error:',
+            'SUCCESS': 'success',
+            'INVALID_PARAMS': 'invalid query parameters'
+        },
+        cache: {
+            expire: 20
+        }
+    });
+
+    return new Promise(function(resolve) {
+        DbConn.init(_config).then(function () {
+                return DbLib.init(DbConn.getAllConnections(), _config);
+        }).then(function () {// Set up and initialize security
+            Security.init(app, Passport, DbConn, DbLib, _config);
+            Cache.init(_config);
+            app.set('cache', Cache);
             // Set up response compression
             app.use(Compression());
 
