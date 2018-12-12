@@ -30,5 +30,18 @@
     "async": "latest",
     "bcrypt": "latest",
     "redis": "latest"
+  },
+  "devDependencies": {
+    "chai": "latest",
+    "grunt": "latest",
+    "grunt-contrib-jshint": "latest",
+    "grunt-mocha-test": "latest",
+    "grunt-shell": "latest",
+    "jshint-stylish": "latest",
+    "load-grunt-tasks": "latest",
+    "mocha": "latest",
+    "mockery": "latest",
+    "sinon": "latest",
+    "supertest": "latest"
   }
 }

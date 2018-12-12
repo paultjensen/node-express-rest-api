@@ -10,7 +10,6 @@ let _validateUserId = function(userId) {
     return !isNaN(userId);
 };
 
-/* POST create user. */
 Router.post('/', function (req, res) {
     let config = req.app.get('config');
     let dbInst = DbConn.getConnection();
@@ -23,7 +22,6 @@ Router.post('/', function (req, res) {
     });
 });
 
-/* GET users listing. */
 Router.get('/', function(req, res) {
     let config = req.app.get('config');
     let cache = req.app.get('cache');
@@ -44,7 +42,7 @@ Router.get('/', function(req, res) {
     let cacheKey = 'getUsers-' + params.pageSize + '-' + params.pageOffset + '-' + params.orderDirection +
     '-' + params.orderParam + '-' + params.search;
 
-    cache.getKeyValJson(cacheKey).then(function(cachedResult) {
+    cache.getKeyValJson(cacheKey).then((cachedResult) => {
         if (cachedResult) {
             res.status(200).send(cachedResult);
         } else {
@@ -57,7 +55,7 @@ Router.get('/', function(req, res) {
                 res.status(500).json({error: err});
             });
         }
-    }).catch(function(err) {
+    }).catch((err) => {
         Logger.log.error(config.msg.ERROR, err);
         res.status(500).json({error: err});
     });
@@ -74,13 +72,13 @@ Router.get('/:userId', function (req, res) {
         return;
     }
 
-    DbLib.getUser(dbInst, params).then(function (result) {
+    DbLib.getUser(dbInst, params).then((result) => {
         if (!result) {
             res.status(404).end();
             return;
         }
         res.status(200).json(FormatterLib.format(FormatterLib.userFormatter, result));
-    }).catch(function (err) {
+    }).catch((err) => {
         Logger.log.error(config.msg.ERROR, err);
         res.status(500).json({error: err});
     });
@@ -98,13 +96,13 @@ Router.delete('/:userId/', function (req, res) {
         return;
     }
 
-    DbLib.deleteUser(dbInst, params).then(function (result) {
+    DbLib.deleteUser(dbInst, params).then((result) => {
         if (result && result > 0) {
             res.status(200).json({result: config.msg.SUCCESS});
             return;
         }
         res.status(404).end();
-    }).catch(function (err) {
+    }).catch((err) => {
         Logger.log.error(config.msg.ERROR, err);
         res.status(500).json({error: err});
     });
@@ -123,12 +121,12 @@ Router.put('/:userId/', function (req, res) {
         return;
     }
 
-    DbLib.modifyUser(dbInst, params).then(function (result) {
+    DbLib.modifyUser(dbInst, params).then((result) => {
         if (result && result > 0) {
             res.status(200).json({result: config.msg.SUCCESS});
         }
         res.status(404).end();
-    }).catch(function (err) {
+    }).catch((err) => {
         Logger.log.error(config.msg.ERROR, err);
         res.status(500).json({error: err});
     });
